@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DJE5ESK6ZG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DJE5ESK6ZG');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script Loader - Wind UI Pro Ultimate</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+:root {
+  --bg-color: #030712; 
+  --card-bg: rgba(17, 24, 39, 0.45); 
+  --card-border: rgba(51, 65, 85, 0.4); 
+  --text-color: #f9fafb; 
+  --text-muted: #9ca3af; 
+  --panel-bg: rgba(3, 7, 18, 0.6);
+  --glow-color: rgba(99, 102, 241, 0.15);
+  --accent-glow: 0 0 30px 5px var(--glow-color);
+}
+
+body.light-theme {
+  --bg-color: #f8fafc; 
+  --card-bg: rgba(255, 255, 255, 0.65); 
+  --card-border: rgba(203, 213, 225, 0.7); 
+  --text-color: #0f172a; 
+  --text-muted: #64748b; 
+  --panel-bg: rgba(241, 245, 249, 0.8);
+  --glow-color: rgba(99, 102, 241, 0.08);
+  --accent-glow: 0 0 20px 2px var(--glow-color);
+}
+
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  filter: brightness(0.5);
+  transition: filter 0.5s ease;
+}
+body.light-theme .background-video {
+  filter: brightness(1.0) contrast(0.9);
+}
+
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.5s ease;
+}
+
+.particles.hidden {
+  opacity: 0;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(99, 102, 241, 0.25);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  animation: floatParticle 10s infinite ease-in-out;
+}
+
+body.light-theme .particle {
+  background: rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+}
+
+@keyframes floatParticle {
+  0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-40px) translateX(20px) scale(1.2); opacity: 0.8; }
+}
+
+.glow-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--accent-glow), inset 0 1px 1px rgba(255,255,255,0.05);
+  animation: cardPulseGlow 6s infinite ease-in-out, cardFloat 8s infinite ease-in-out;
+}
+
+@keyframes cardPulseGlow {
+  0%, 100% { box-shadow: var(--accent-glow), inset 0 1px 1px rgba(255,255,255,0.05); border-color: var(--card-border); }
+  50% { box-shadow: 0 0 45px 8px rgba(99, 102, 241, 0.25), inset 0 1px 1px rgba(255,255,255,0.1); border-color: rgba(99, 102, 241, 0.4); }
+}
+
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.glow-progress {
+  box-shadow: 0 0 15px #6366f1, 0 0 5px #3b82f6;
+}
+
+@keyframes progressLoading {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.animate-progress {
+  animation: progressLoading 20s linear forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); filter: blur(4px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn .6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes softRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-soft-spin {
+  animation: softRotate 4s linear infinite;
+}
+
+@keyframes textPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(0.98); }
+}
+.animate-text-pulse {
+  animation: textPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes elementFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.05); }
+}
+.animate-element-float {
+  animation: elementFloat 3s ease-in-out infinite;
+}
+
+@keyframes borderGlowLoop {
+  0%, 100% { border-color: var(--card-border); box-shadow: inset 0 0 0px rgba(99, 102, 241, 0); }
+  50% { border-color: rgba(99, 102, 241, 0.5); box-shadow: inset 0 0 10px rgba(99, 102, 241, 0.1); }
+}
+.animate-border-glow {
+  animation: borderGlowLoop 4s ease-in-out infinite;
+}
+
+.wind-scrollbar::-webkit-scrollbar { height: 5px; }
+.wind-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.wind-scrollbar::-webkit-scrollbar-thumb { background: rgba(99, 102, 241, 0.3); border-radius: 9999px; transition: background 0.3s; }
+.wind-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.6); }
+
+body {
+  top: 0px !important;
+}
+
+#google_translate_element, .skiptranslate, .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame {
+  display: none !important;
+}
+.goog-text-highlight {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+</style>
+</head>
+
+<body class="bg-[var(--bg-color)] text-[var(--text-color)] min-h-screen flex items-center justify-center font-sans antialiased selection:bg-indigo-500/40 relative transition-colors duration-500 overflow-hidden">
+
+<div class="fixed inset-0 bg-gradient-to-tr from-slate-950/40 via-transparent to-indigo-950/20 z-[-2] pointer-events-none transition-all duration-700"></div>
+<video autoplay loop muted playsinline class="background-video">
+    <source src="https://res.cloudinary.com/dkqqcqf6f/video/upload/v1749751051/Screen_Recording_2025-06-12_at_10.56.46_AM_nfptwx.mov" type="video/mp4">
+</video>
+
+<div id="particles-container" class="particles">
+    <div class="particle" style="width: 8px; height: 8px; left: 15%; top: 25%; animation-delay: 0s; animation-duration: 8s;"></div>
+    <div class="particle" style="width: 12px; height: 12px; left: 65%; top: 70%; animation-delay: 2s; animation-duration: 12s;"></div>
+    <div class="particle" style="width: 6px; height: 6px; left: 45%; top: 85%; animation-delay: 4s; animation-duration: 10s;"></div>
+    <div class="particle" style="width: 10px; height: 10px; left: 80%; top: 20%; animation-delay: 1s; animation-duration: 14s;"></div>
+</div>
+
+<div id="main-card" class="glow-card w-full max-w-md mx-4 p-6 rounded-2xl backdrop-blur-2xl transition-all duration-500 hover:scale-[1.01] hover:border-indigo-500/40 animate-fade-in">
+
+  <div class="flex flex-col gap-3 mb-6 border-b border-[var(--card-border)] pb-4 transition-all duration-300">
+      <div class="flex justify-between items-center text-xs font-mono">
+        <div class="flex items-center gap-2 group cursor-default">
+          <span class="h-2 w-2 rounded-full bg-indigo-500 animate-ping"></span>
+          <span class="text-[var(--text-muted)] font-black uppercase tracking-widest text-[10px] group-hover:text-indigo-400 transition-colors duration-300 notranslate">WIND // HUB</span>
+        </div>
+        <div class="flex gap-2">
+          <button class="px-3 py-1.5 rounded-xl bg-[var(--panel-bg)] border border-[var(--card-border)] hover:border-indigo-500/50 hover:bg-indigo-500/10 hover:shadow-[0_0_15px_rgba(99,102,241,0.2)] cursor-pointer text-[var(--text-color)] transition-all duration-300 flex items-center gap-1.5 active:scale-95" onclick="toggleTheme()">
+              <i class="fas fa-sun text-indigo-400 transition-transform duration-500 group-hover:rotate-45" id="theme-icon"></i>
+              <span id="theme-text" class="transition-all duration-300">Light Theme</span>
+          </button>
+          <button id="particles-toggle" onclick="toggleParticles()" class="px-3 py-1.5 rounded-xl bg-[var(--panel-bg)] border border-[var(--card-border)] hover:border-indigo-500/50 hover:bg-indigo-500/10 hover:shadow-[0_0_15px_rgba(99,102,241,0.2)] cursor-pointer text-[var(--text-color)] transition-all duration-300 active:scale-95">FX: On</button>
+        </div>
+      </div>
+
+      <div class="flex justify-end items-center relative">
+        <div class="relative inline-block text-left w-full sm:w-auto">
+          <button onclick="toggleTranslateMenu()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl bg-[var(--panel-bg)] border border-[var(--card-border)] hover:border-indigo-500/50 hover:bg-indigo-500/10 hover:shadow-[0_0_15px_rgba(99,102,241,0.2)] cursor-pointer text-[var(--text-color)] font-mono text-[11px] font-bold tracking-wider uppercase transition-all duration-300 flex items-center justify-between sm:justify-start gap-2 active:scale-95">
+            <span class="flex items-center gap-1.5">
+              <i data-lucide="languages" class="h-3.5 w-3.5 text-indigo-400"></i>
+              <span id="current-lang-text">Español</span>
+            </span>
+            <i data-lucide="chevron-down" id="translate-chevron" class="h-3 w-3 text-indigo-400 transition-transform duration-300"></i>
+          </button>
+
+          <div id="translate-dropdown" class="hidden absolute right-0 mt-2 w-44 rounded-xl bg-[var(--panel-bg)] border border-[var(--card-border)] backdrop-blur-xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.5),0_0_15px_rgba(99,102,241,0.1)] overflow-hidden z-50 animate-fade-in transition-all duration-300">
+            <div class="p-1 flex flex-col gap-0.5 font-mono text-[11px]">
+              <button onclick="changeLanguage('es', 'Español')" class="w-full text-left px-3 py-2 rounded-lg text-[var(--text-color)] hover:bg-indigo-500/20 hover:text-indigo-300 transition-all duration-200 flex items-center justify-between cursor-pointer group">
+                <span>ESPAÑOL</span>
+                <span class="h-1 w-1 rounded-full bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button onclick="changeLanguage('en', 'English')" class="w-full text-left px-3 py-2 rounded-lg text-[var(--text-color)] hover:bg-indigo-500/20 hover:text-indigo-300 transition-all duration-200 flex items-center justify-between cursor-pointer group">
+                <span>ENGLISH</span>
+                <span class="h-1 w-1 rounded-full bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+              <button onclick="changeLanguage('morse', 'Morse')" class="w-full text-left px-3 py-2 rounded-lg text-[var(--text-color)] hover:bg-indigo-500/20 hover:text-indigo-300 transition-all duration-200 flex items-center justify-between cursor-pointer group">
+                <span>CÓDIGO MORSE</span>
+                <span class="h-1 w-1 rounded-full bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div id="error-state" class="space-y-6 text-center transition-all duration-500">
+    <div class="space-y-3">
+      <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 border border-red-500/30 shadow-[0_0_20px_rgba(239,68,68,0.2)] mb-2 transition-transform duration-500 hover:rotate-12 animate-element-float">
+          <i data-lucide="shield-alert" class="h-6 w-6 text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.6)]"></i>
+      </div>
+      <h2 id="trans-title" class="text-xl font-mono font-black tracking-wider text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.3)] transition-all duration-300 hover:tracking-widest animate-pulse notranslate">SECURITY_BYPASS: 888</h2>
+      <span id="trans-status" class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-amber-500/10 border border-amber-500/30 text-amber-400 animate-pulse">
+        Estado: Verificando Entorno
+      </span>
+    </div>
+    
+    <p id="trans-desc" class="text-xs text-[var(--text-muted)] leading-relaxed px-4 transition-all duration-300 hover:text-[var(--text-color)] animate-text-pulse">
+      Analizando firmas digitales y hashes del sistema para inicializar el búfer de ejecución...
+    </p>
+
+    <div class="bg-[var(--panel-bg)] border border-[var(--card-border)] rounded-xl p-4 font-mono shadow-[inset_0_2px_8px_rgba(0,0,0,0.4)] transition-all duration-300 group animate-border-glow">
+      <div id="trans-timer-lbl" class="text-[10px] text-[var(--text-muted)] uppercase tracking-widest mb-1.5 group-hover:text-indigo-300 transition-colors duration-300">Tiempo restante para descifrado</div>
+      <div id="countdown-timer" class="text-3xl font-black text-indigo-400 tracking-widest drop-shadow-[0_0_12px_rgba(99,102,241,0.5)] transition-transform duration-300 group-hover:scale-105 notranslate">00:00:00</div>
+    </div>
+    
+    <div id="trans-sync" class="text-[10px] font-mono text-[var(--text-muted)] flex items-center justify-center gap-1.5 animate-text-pulse">
+      <i data-lucide="refresh-cw" class="h-3 w-3 animate-spin text-indigo-400"></i>
+      Sincronizando reloj con servidor principal...
+    </div>
+  </div>
+
+  <div id="loading-state" class="space-y-6 hidden">
+    <div class="space-y-2 text-center">
+      <div class="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.2)] mb-2 animate-soft-spin">
+        <i data-lucide="database-zap" class="h-5 w-5"></i>
+      </div>
+      <h2 id="trans-load-title" class="text-lg font-bold tracking-tight text-[var(--text-color)] animate-pulse">Bypass Autorizado</h2>
+      <p id="trans-load-desc" class="text-xs text-[var(--text-muted)] animate-text-pulse">Inyectando dependencias y resolviendo punteros...</p>
+    </div>
+    
+    <div class="w-full h-2.5 bg-slate-950 border border-[var(--card-border)] rounded-full overflow-hidden p-[2px] transition-all duration-300 hover:border-indigo-500/40">
+      <div id="progress-bar" class="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full glow-progress"></div>
+    </div>
+    <div class="flex justify-between items-center text-[10px] font-mono text-[var(--text-muted)]">
+      <span><span class="h-1.5 w-1.5 rounded-full bg-blue-400 animate-ping"></span> STABLE_BRANCH</span>
+      <span id="trans-load-time" class="animate-pulse">20s remaining</span>
+    </div>
+  </div>
+
+  <div id="complete-state" class="space-y-5 hidden">
+    <div class="space-y-2 text-center">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)] mb-1 transition-transform duration-500 hover:scale-110 animate-element-float">
+        <i data-lucide="terminal" class="h-5 w-5 drop-shadow-[0_0_5px_rgba(16,185,129,0.6)]"></i>
+      </div>
+      <h2 id="trans-comp-title" class="text-xl font-black tracking-tight text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.3)] animate-pulse">¡Script Desbloqueado!</h2>
+      <p id="trans-comp-desc" class="text-xs text-[var(--text-muted)] animate-text-pulse">Haz clic abajo para copiar el string de ejecución instantánea.</p>
+    </div>
+
+    <div class="relative flex items-center bg-slate-950/80 border border-[var(--card-border)] focus-within:border-indigo-500/60 focus-within:shadow-[0_0_15px_rgba(99,102,241,0.15)] rounded-xl p-4 pr-14 transition-all duration-300 shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] animate-border-glow group">
+      <div class="w-full overflow-x-auto whitespace-nowrap text-xs font-mono text-indigo-300 wind-scrollbar select-all scroll-smooth transition-colors duration-300 group-hover:text-indigo-200 notranslate" id="script-text">loadstring(game:HttpGet("https://pastebin.com/raw/djWFUHNZ"))()</div>
+      
+      <button onclick="copyToClipboard()" id="copy-btn" class="absolute right-2.5 top-1/2 -translate-y-1/2 p-2.5 rounded-lg bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--text-muted)] hover:text-indigo-400 hover:border-indigo-500/50 hover:scale-105 shadow-md transition-all duration-300 active:scale-90 cursor-pointer" title="Copiar código">
+        <i data-lucide="copy" id="copy-icon" class="h-4 w-4 transition-transform duration-300"></i>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div id="google_translate_element"></div>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'es',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+if (window.lucide) {
+  lucide.createIcons();
+}
+
+const errorState = document.getElementById('error-state');
+const loadingState = document.getElementById('loading-state');
+const completeState = document.getElementById('complete-state');
+const progressBar = document.getElementById('progress-bar');
+const timerDisplay = document.getElementById('countdown-timer');
+
+const translations = {
+  es: {
+    status: "Estado: Verificando Entorno",
+    desc: "Analizando firmas digitales y hashes del sistema para inicializar el búfer de ejecución...",
+    timerLbl: "Tiempo restante para descifrado",
+    sync: "Sincronizando reloj con servidor principal...",
+    loadTitle: "Bypass Autorizado",
+    loadDesc: "Inyectando dependencias y resolviendo punteros...",
+    loadTime: "20s restantes",
+    compTitle: "¡Script Desbloqueado!",
+    compDesc: "Haz clic abajo para copiar el string de ejecución instantánea."
+  },
+  en: {
+    status: "Status: Verifying Environment",
+    desc: "Analyzing digital signatures and system hashes to initialize execution buffer...",
+    timerLbl: "Remaining time for decryption",
+    sync: "Synchronizing clock with main server...",
+    loadTitle: "Bypass Authorized",
+    loadDesc: "Injecting dependencies and resolving pointers...",
+    loadTime: "20s remaining",
+    compTitle: "Script Unlocked!",
+    compDesc: "Click below to copy the instant execution string."
+  },
+  morse: {
+    status: ". ... - .- -.. --- : ...- . .-. .. ..-. .. -.-. .- -. -.. ---",
+    desc: ".- -. .- .-.. .. --.. .- -. -.. --- / ..-. .. .-. -- .- ... / -.. .. --. .. - .- .-.. . ...",
+    timerLbl: "- .. . -- .--. --- / .-. . ... - .- -. - .",
+    sync: "... .. -. -.-. .-. --- -. .. --.. .- -. - -.. ---",
+    loadTitle: "-... -.-- .--. .- ... ... / .- ..- - --- .-. .. --.. .- -.. ---",
+    loadDesc: ".. -. -.-- . -.-. - .- -. -.. ---",
+    loadTime: "..--- ----- ...",
+    compTitle: "... -.-. .-. .. .--. - / -.. . ... -... .-.. --- --.- ..- . .- -.. ---",
+    compDesc: "-.-. --- .--. .. .- .-"
+  }
+};
+
+function toggleTranslateMenu() {
+  const dropdown = document.getElementById('translate-dropdown');
+  const chevron = document.getElementById('translate-chevron');
+  dropdown.classList.toggle('hidden');
+  chevron.classList.toggle('rotate-180');
+}
+
+function changeLanguage(langCode, langName) {
+  document.getElementById('current-lang-text').innerText = langName;
+  
+  if (langCode === 'morse') {
+    applyLocalTexts('morse');
+  } else {
+    const googleSelect = document.querySelector('.goog-te-combo');
+    if (googleSelect) {
+      googleSelect.value = langCode;
+      googleSelect.dispatchEvent(new Event('change'));
+    }
+    applyLocalTexts(langCode);
+  }
+  toggleTranslateMenu();
+}
+
+function applyLocalTexts(lang) {
+  const data = translations[lang] || translations['es'];
+  document.getElementById('trans-status').innerText = data.status;
+  document.getElementById('trans-desc').innerText = data.desc;
+  document.getElementById('trans-timer-lbl').innerText = data.timerLbl;
+  document.getElementById('trans-sync').innerHTML = `<i data-lucide="refresh-cw" class="h-3 w-3 animate-spin text-indigo-400"></i> ${data.sync}`;
+  document.getElementById('trans-load-title').innerText = data.loadTitle;
+  document.getElementById('trans-load-desc').innerText = data.loadDesc;
+  document.getElementById('trans-load-time').innerText = data.loadTime;
+  document.getElementById('trans-comp-title').innerText = data.compTitle;
+  document.getElementById('trans-comp-desc').innerText = data.compDesc;
+  lucide.createIcons();
+}
+
+function toggleTheme() {
+  const body = document.body;
+  const themeText = document.getElementById('theme-text');
+  const themeIcon = document.getElementById('theme-icon');
+  body.classList.toggle('light-theme');
+  
+  if(body.classList.contains('light-theme')) {
+    themeText.innerText = "Dark Theme";
+    themeIcon.className = "fas fa-moon text-indigo-500 transition-all duration-300 transform rotate-180";
+  } else {
+    themeText.innerText = "Light Theme";
+    themeIcon.className = "fas fa-sun text-indigo-400 transition-all duration-300 transform rotate-0";
+  }
+}
+
+function toggleParticles() {
+  const container = document.getElementById('particles-container');
+  const btn = document.getElementById('particles-toggle');
+  container.classList.toggle('hidden');
+  btn.innerText = container.classList.contains('hidden') ? "FX: Off" : "FX: On";
+}
+
+// LOGICA CORREGIDA DEL TEMPORIZADOR (Maneja el rango aleatorio de 30 min a 1 h)
+let horas = 0;
+let minutos = Math.floor(Math.random() * (60 - 30 + 1)) + 30; 
+let segundos = Math.floor(Math.random() * 60);
+
+actualizarDisplay();
+
+const countdown = setInterval(() => {
+  segundos--;
+  if (segundos < 0) {
+    segundos = 59;
+    minutos--;
+    if (minutos < 0) {
+      if (horas > 0) {
+        minutos = 59;
+        horas--;
+      } else {
+        minutos = 0;
+        segundos = 0;
+        clearInterval(countdown);
+        actualizarDisplay();
+        transicionALoading();
+        return;
+      }
+    }
+  }
+  actualizarDisplay();
+}, 1000);
+
+function actualizarDisplay() {
+  if (!timerDisplay) return;
+  let h = horas < 10 ? '0' + horas : horas;
+  let m = minutos < 10 ? '0' + minutos : minutos; // Corregido: 'minutos' en lugar de 'minutes'
+  let s = segundos < 10 ? '0' + segundos : segundos;
+  timerDisplay.innerText = `${h}:${m}:${s}`;
+}
+
+function transicionALoading() {
+  if (errorState) {
+    errorState.style.opacity = '0';
+    errorState.style.transform = 'translateY(-10px)';
+  }
+  setTimeout(() => {
+    if (errorState) errorState.classList.add('hidden');
+    if (loadingState) {
+      loadingState.classList.remove('hidden');
+      loadingState.classList.add('animate-fade-in');
+    }
+    if (progressBar) progressBar.classList.add('animate-progress');
+  }, 300);
+}
+
+if (progressBar) {
+  progressBar.addEventListener('animationend', () => {
+    if (loadingState) {
+      loadingState.style.opacity = '0';
+      loadingState.style.transform = 'translateY(-10px)';
+    }
+    setTimeout(() => {
+      if (loadingState) loadingState.classList.add('hidden');
+      if (completeState) {
+        completeState.classList.remove('hidden');
+        completeState.classList.add('animate-fade-in');
+      }
+    }, 300);
+  });
+}
+
+function copyToClipboard() {
+  const textToCopy = document.getElementById('script-text').innerText;
+  const copyIcon = document.getElementById('copy-icon');
+  const copyBtn = document.getElementById('copy-btn');
+
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    if (copyIcon && copyBtn) {
+      copyIcon.setAttribute('data-lucide', 'check');
+      copyBtn.classList.remove('text-[var(--text-muted)]', 'border-[var(--card-border)]');
+      copyBtn.classList.add('text-emerald-400', 'border-emerald-500/50', 'bg-emerald-500/10', 'scale-105');
+      lucide.createIcons();
+
+      setTimeout(() => {
+        copyIcon.setAttribute('data-lucide', 'copy');
+        copyBtn.classList.remove('text-emerald-400', 'border-emerald-500/50', 'bg-emerald-500/10', 'scale-105');
+        copyBtn.classList.add('text-[var(--text-muted)]', 'border-[var(--card-border)]');
+        lucide.createIcons();
+      }, 2000);
+    }
+  }).catch(err => {
+    console.error('Error al copiar: ', err);
+  });
+}
+</script>
+</body>
+</html>
